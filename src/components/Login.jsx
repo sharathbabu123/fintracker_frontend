@@ -13,40 +13,55 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Logs each time an input changes
   const handleChange = (e) => {
+    console.log(`[Login] handleChange - Field: ${e.target.name}, Value: ${e.target.value}`);
+    
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
-    setError(''); // Clear error when user types
+    
+    // Clear error when user types
+    setError('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('[Login] handleSubmit - FormData:', formData);
+
     setError('');
     setLoading(true);
 
     try {
       const endpoint = isLogin ? '/login' : '/register';
+      console.log(`[Login] handleSubmit - Calling endpoint: ${API_BASE_URL}${endpoint}`);
+
+      // Send request to the server
       const response = await axios.post(`${API_BASE_URL}${endpoint}`, formData);
-      
+
+      console.log('[Login] handleSubmit - Response data:', response.data);
+
       // Store token and user data
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
-      
+
       // Redirect to dashboard
+      console.log('[Login] handleSubmit - Redirecting to /dashboard');
       window.location.href = '/dashboard';
     } catch (err) {
-      console.error('Auth error:', err);
+      console.error('[Login] handleSubmit - Error:', err);
       setError(
-        err.response?.data?.error || 
+        err.response?.data?.error ||
         'An error occurred. Please try again.'
       );
     } finally {
       setLoading(false);
+      console.log('[Login] handleSubmit - Finished request');
     }
   };
 
+  // Helper to validate the form
   const validateForm = () => {
     if (!formData.username || !formData.password || (!isLogin && !formData.email)) {
       return false;
@@ -100,8 +115,8 @@ const Login = () => {
             />
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="submit-btn"
             disabled={loading || !validateForm()}
           >
@@ -111,11 +126,14 @@ const Login = () => {
 
         <p className="toggle-form">
           {isLogin ? "Don't have an account? " : "Already have an account? "}
-          <span onClick={() => {
-            setIsLogin(!isLogin);
-            setError('');
-            setFormData({ username: '', password: '', email: '' });
-          }}>
+          <span
+            onClick={() => {
+              console.log('[Login] Toggling form - from', isLogin ? 'Login' : 'Register', 'to', !isLogin ? 'Login' : 'Register');
+              setIsLogin(!isLogin);
+              setError('');
+              setFormData({ username: '', password: '', email: '' });
+            }}
+          >
             {isLogin ? 'Register here' : 'Login here'}
           </span>
         </p>
