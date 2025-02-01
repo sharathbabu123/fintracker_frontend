@@ -2,10 +2,14 @@ import React from 'react';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Login from './components/Login';
 
-// Temporary Dashboard component until you create a proper one
-const Dashboard = () => <div>Dashboard Page</div>;
+// Layout
+import DashboardLayout from './layouts/DashboardLayout';
 
-// Protected Route component
+// Pages
+import DashboardPage from './pages/DashboardPage';
+import ExpensesPage from './pages/ExpensesPage';
+import GoalsPage from './pages/GoalsPage';
+
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
   if (!token) {
@@ -18,16 +22,29 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Public route */}
         <Route path="/login" element={<Login />} />
+
+        {/* Protected route: only logged in can access */}
         <Route
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <DashboardLayout />
             </ProtectedRoute>
           }
-        />
-        <Route path="/" element={<Navigate to="/login" />} />
+        >
+          {/* Nested routes within /dashboard */}
+          <Route index element={<DashboardPage />} />
+          <Route path="expenses" element={<ExpensesPage />} />
+          <Route path="goals" element={<GoalsPage />} />
+        </Route>
+
+        {/* Default route → /dashboard (or /login, your choice) */}
+        <Route path="/" element={<Navigate to="/dashboard" />} />
+
+        {/* 404 catch-all, optional */}
+        <Route path="*" element={<h2>404 - Not Found</h2>} />
       </Routes>
     </Router>
   );
