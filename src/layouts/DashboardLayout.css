@@ -34,3 +34,17 @@
     padding: 1rem;
   }
   
+  /* Logout button styling */
+.logout-button {
+  background-color: #ff4136;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  border-radius: 4px;
+}
+
+.logout-button:hover {
+  background-color: #e2362a;
+}
