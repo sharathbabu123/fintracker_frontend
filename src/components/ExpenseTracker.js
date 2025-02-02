@@ -19,7 +19,7 @@ function ExpenseTracker({ addExpense }) {
     };
     // POST to your /expenses route
     try {
-      const res = await fetch('/expenses', {
+      const res = await fetch('${API_BASE_URL}/expenses', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newExpense)

@@ -19,7 +19,7 @@ function IncomeTracker({ addIncome }) {
     };
     // POST to your /income route
     try {
-      const res = await fetch('/income', {
+      const res = await fetch('${API_BASE_URL}/income', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newIncome)
