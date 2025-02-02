@@ -1,44 +1,44 @@
-// Example snippet inside ExpenseTracker.js
+// Example snippet inside IncomeTracker.js
 import React, { useState } from 'react';
 
-function ExpenseTracker({ addExpense }) {
+function IncomeTracker({ addIncome }) {
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('Food');
   const [date, setDate] = useState('');
   const [transactionType, setTransactionType] = useState('one-time');
 
-  const handleAddExpense = async () => {
+  const handleAddIncome = async () => {
     // Validate form, e.g. ensure date/amount are filled
 
-    const newExpense = {
+    const newIncome = {
       userId: 123, // get from localStorage or props
       amount: parseFloat(amount),
       category,
       date,
       transactionType
     };
-    // POST to your /expenses route
+    // POST to your /income route
     try {
-      const res = await fetch('/expenses', {
+      const res = await fetch('/income', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newExpense)
+        body: JSON.stringify(newIncome)
       });
       const data = await res.json();
-      // addExpense is presumably a state setter that merges the new expense
-      addExpense((prev) => [...prev, data]);
+      // addIncome is presumably a state setter that merges the new income
+      addIncome((prev) => [...prev, data]);
       // Clear fields
       setAmount('');
       setDate('');
       setTransactionType('one-time');
     } catch (err) {
-      console.error('Error adding expense:', err);
+      console.error('Error adding income:', err);
     }
   };
 
   return (
     <div>
-      <h2>Add Expense</h2>
+      <h2>Add Income</h2>
       <input
         type="number"
         placeholder="Amount"
@@ -70,9 +70,9 @@ function ExpenseTracker({ addExpense }) {
         {/* etc. */}
       </select>
 
-      <button onClick={handleAddExpense}>Add</button>
+      <button onClick={handleAddIncome}>Add</button>
     </div>
   );
 }
 
-export default ExpenseTracker;
+export default IncomeTracker;

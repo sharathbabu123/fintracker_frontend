@@ -7,8 +7,8 @@ import DashboardLayout from './layouts/DashboardLayout';
 
 // Pages
 import DashboardPage from './pages/DashboardPage';
-import ExpensesPage from './pages/ExpensesPage';
 import GoalsPage from './pages/GoalsPage';
+import TransactionsPage from './pages/TransactionsPage';
 
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
@@ -36,7 +36,7 @@ function App() {
         >
           {/* Nested routes within /dashboard */}
           <Route index element={<DashboardPage />} />
-          <Route path="expenses" element={<ExpensesPage />} />
+          <Route path="transactions" element={<TransactionsPage />} />
           <Route path="goals" element={<GoalsPage />} />
         </Route>
 
